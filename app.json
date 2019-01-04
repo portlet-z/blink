@@ -3,10 +3,10 @@
     "pages/classic/classic"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#00ff00",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "portlet",
     "navigationStyle": "default",
-    "backgroundColor": "#ff0000"
+    "backgroundColor": "#ffffff"
   }
 }
