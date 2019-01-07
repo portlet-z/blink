@@ -1,29 +1,46 @@
-// pages/book/book.js
+// pages/book-detail/book-detail.js
 import {
   BookModel
 } from '../../models/book.js'
-
 const bookModel = new BookModel()
-
 Page({
 
   /**
    * Page initial data
    */
   data: {
-    books: []
+    comments: [],
+    book: null,
+    likeStatus: false,
+    likeCount: 0
   },
 
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    bookModel.getHotList()
-      .then(res => {
-        this.setData({
-          books: res
-        })
+    const bid = options.bid
+    const detail = bookModel.getDetail(bid)
+    const comments = bookModel.getComments(bid)
+    const likeStatus = bookModel.getLikeStatus(bid)
+    detail.then(res => {
+      this.setData({
+        book: res
       })
+    })
+
+    comments.then(res => {
+      this.setData({
+        comments: res
+      })
+    })
+
+    likeStatus.then(res => {
+      this.setData({
+        likeStatus: res.like_status,
+        likeCount: res.fav_nums
+      })
+    })
   },
 
   /**
