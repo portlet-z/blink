@@ -10,7 +10,7 @@
     <text class='headline'>短评</text>
     <view class='comment-container'>
       <block wx:key='content' wx:for='{{util.limit(comments, 10)}}'>
-        <v-tag tag-class='{{index === 0 ? "ex-tag1" : "" || index === 1 ? "ex-tag2" : ""}}'>
+        <v-tag tag-class='{{tool.highlight(index)}}'>
           <text slot='before'>{{item.content}}</text>
           <text class='num' slot='after'>{{'+' + item.nums}}</text>
         </v-tag>
@@ -41,3 +41,45 @@
     </view>
   </view>
 </view>
+
+<view wx:if='{{!posting}}' class='post-container'>
+  <view bind:tap='onFakePost' class='post-fake'>
+    <text>输入短评</text>
+  </view>
+  <view class='like-container'>
+    <v-like bind:like="onLike" class='like' like='{{likeStatus}}' count='{{likeCount}}' />
+  </view>
+</view>
+
+<view wx:if='{{posting}}' class='posting-container'>
+  <view class='post-header'>
+    <text>仅可点击标签+1</text>
+    <text bind:tap='onCancel' class='cancel'>取消</text>
+  </view>
+  <view class='comment-container'>
+    <block wx:key='content' wx:for='{{util.limit(comments, 3)}}'>
+      <v-tag tag-class='{{tool.highlight(index)}}'>
+        <text slot='before'>{{item.content}}</text>
+        <text class='num' slot='after'>{{'+' + item.nums}}</text>
+      </v-tag>
+    </block>
+  </view>
+  <input class='post' placeholder='短评最多12个字'></input>
+</view>
+
+<v-mask wx:if='{{posting}}'/>
+
+<wxs module="tool">
+  var highlight = function (index) {
+    if (index === 0) {
+      return 'ex-tag1'
+    } else if (index === 1) {
+      return 'ex-tag2'
+    }
+    return ''
+  }
+
+  module.exports = {
+    highlight: highlight
+  }
+</wxs>
