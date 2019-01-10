@@ -65,6 +65,36 @@ Page({
     })
   },
 
+  onPost (event) {
+    const comment = event.detail.text || event.detail.value
+    // const commentInput = event.detail.value
+    if (!comment) {
+      return
+    }
+    if (comment.length > 12) {
+      wx.showToast({
+        title: '短评最多12个字',
+        icon: 'none'
+      })
+      return
+    }
+    bookModel.postComment(this.data.book.id, comment)
+    .then(res => {
+      wx.showToast({
+        title: '+ 1',
+        icon: 'none'
+      })
+      this.data.comments.unshift({
+        content: comment,
+        nums: 1
+      })
+      this.setData({
+        comments: this.data.comments,
+        posting: false
+      })
+    })
+  },
+
   /**
    * Lifecycle function--Called when page is initially rendered
    */
